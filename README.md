@@ -108,12 +108,12 @@ Dans le terminal à nouveau :
 Dans VScode, modifier dans server> config> config.json 
 ajouter ceci : 
 
-![descriptif](Images/create-db.png)
+<p style="text-align:justify;">![descriptif](Images/create-db.png)</p>
 
 
 sur le doc **.env** ajouter : 
 
-![descriptif](Images/display-db.png)
+<p style="text-align:justify;">![descriptif](Images/display-db.png)</p>
 
 Dans le terminal : 
 > **sequelize model:create --name Todo --attributes title:string**
@@ -127,7 +127,8 @@ Dans le terminal :
 
 Dans le dossier **server/models/todo.js** : 
 Modifier : 
-![descriptif](Images/model1.png)
+
+<p style="text-align:justify;">![descriptif](Images/model1.png)</p>
 
 Par 
 
