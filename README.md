@@ -126,7 +126,8 @@ Dans le terminal :
 ⇒ vérifier qu’un nouveau fichier apparait dans todoitems.js dans **models**
 
 Dans le dossier **server/models/todo.js** : 
-Modifier : 
+Modifier :
+
 ![descriptif](Images/model1.png)
 
 Par 
