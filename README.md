@@ -80,12 +80,22 @@ Aller sur le site https://scotch.io/tutorials/getting-started-with-node-express-
 
 ![descriptif](Images/scotch.png)
 
-6. Aller directement à l’étape Sequilize Setup : 
+6. Aller directement à l’étape **Sequilize Setup** : 
 Dans le terminal : 
 > **npm install -g sequelize-cli**
 dans VS code sur le fichier **.sequilizerc** ajouter ceci : 
 
-**[IMAGE]**
+```
+const path = require('path');
+
+module.exports = {
+  "config": path.resolve('./server/config', 'config.json'),
+  "models-path": path.resolve('./server/models'),
+  "seeders-path": path.resolve('./server/seeders'),
+  "migrations-path": path.resolve('./server/migrations')
+};
+
+```
 
 
 Dans le terminal à nouveau : 
@@ -99,12 +109,12 @@ Dans le terminal à nouveau :
 Dans VScode, modifier dans server> config> config.json 
 ajouter ceci : 
 
-**[IMAGE]**
+![descriptif](Images/create-db.png)
 
 
 sur le doc **.env** ajouter : 
 
-**[IMAGE]**
+![descriptif](Images/display-db.png)
 
 Dans le terminal : 
 > **sequelize model:create --name Todo --attributes title:string**
@@ -116,32 +126,140 @@ Dans le terminal :
 ⇒ vérifier qu’un nouveau fichier apparait dans create to do items dans **migrations**
 ⇒ vérifier qu’un nouveau fichier apparait dans todoitems.js dans **models**
 
-Dans le dossier **models>todo.js** : 
+Dans le dossier **server/models/todo.js** : 
 Modifier : 
- **[IMAGE]**
+![descriptif](Images/model1.png)
 
 Par 
 
-**[IMAGE]**
+```
+module.exports = (sequelize, DataTypes) => {
+  const Todo = sequelize.define('Todo', {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  });
 
-Dans le dossier **models>todoitem.js** supprimer le contenu et remplacer par : 
+  Todo.associate = (models) => {
+    Todo.hasMany(models.TodoItem, {
+      foreignKey: 'todoId',
+      as: 'todoItems',
+    });
+  };
+
+  return Todo;
+};
+
+```
+
+Dans le dossier **server/models/todoitem.js** supprimer le contenu et remplacer par : 
 _Remarque : Ne pas supprimer le **‘use strict’;**_
 
-**[IMAGE]**
+```
+module.exports = (sequelize, DataTypes) => {
+  const TodoItem = sequelize.define('TodoItem', {
+    content: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    complete: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  });
 
-Dans le dossier **migrations > createtodo**, changer le contenu et remplacer par :
+  TodoItem.associate = (models) => {
+    TodoItem.belongsTo(models.Todo, {
+      foreignKey: 'todoId',
+      onDelete: 'CASCADE',
+    });
+  };
+
+  return TodoItem;
+};
+
+```
+
+Dans le dossier **server/migrations/<date>-create-todo.js**, changer le contenu et remplacer par :
 _Remarque : ne pas supprimer **‘use strict’;**_
 
-**[IMAGE]**
+```
+module.exports = {
+  up: (queryInterface, Sequelize) =>
+    queryInterface.createTable('Todos', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+    }),
+  down: (queryInterface /* , Sequelize */) => queryInterface.dropTable('Todos'),
+};
+
+```
 
 
-Dans le dossier **migrations > createtodoitems**, changer le contenu et remplacer par :
+Dans le dossier **server/migrations/<date>-create-todo-item.js**, changer le contenu et remplacer par :
 _Remarque : ne pas supprimer **‘use strict’;**_
 
-**[IMAGE]**
+```
+module.exports = {
+  up: (queryInterface, Sequelize) =>
+    queryInterface.createTable('TodoItems', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      content: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      complete: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      todoId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Todos',
+          key: 'id',
+          as: 'todoId',
+        },
+      },
+    }),
+  down: (queryInterface /* , Sequelize */) =>
+    queryInterface.dropTable('TodoItems'),
+};
+```
+Une fosi ces étapes terminées faire : 
+> **sequelize db:migrate**
 
-
-
+8. Création des controller et Routing
 Dans le terminal VS code, créer le fichier _**controllers**_ à l’intérieur le fichier de **todos.js**, à l’intérieur ajouter : 
 **‘use strict’;**
 
