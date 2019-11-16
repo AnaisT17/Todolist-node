@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "anaist",
+    "password": "Petitmelon-17",
+    "database": "todosdev",
+    "host": "localhost",
+    "dialect": "postgres"
+    }
+}
+ 
