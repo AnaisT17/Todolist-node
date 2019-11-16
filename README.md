@@ -25,6 +25,7 @@ Création du fichier de configuration pour Babel : **touch .babelrc**
 **[IMAGE]**
 
 
+
 Puis aller sur le **repo H, récupérer le code suivant dans app.js (variable + import), à coller dans VsCode dans app.js **: 
 
 
