@@ -104,7 +104,6 @@ Dans le terminal à nouveau :
 > **sequelize init**
 
 7. Création de la base de données : 
-> **sudo -u postgres psql** (si la base n’est pas créée)
 > **CREATE DATABASE todosdev;** ⇐ pour créer une nouvelle base de données sur Psql 
 Dans VScode, modifier dans server> config> config.json 
 ajouter ceci : 
