@@ -75,12 +75,7 @@ Si le port ne fonctionne pas aller sur le terminal pour reset en faisant : rs pu
 
 - Copier le contenu du fichier layout.pug puis coller sur vs code dans le fichier **views > layout.pg** (remplacer celui-ci par le contenu déjà existant) 
 
-
-Aller sur le site https://scotch.io/tutorials/getting-started-with-node-express-and-postgres-using-sequelize
-
-![descriptif](Images/scotch.png)
-
-6. Aller directement à l’étape **Sequilize Setup** : 
+6.
 Dans le terminal : 
 > **npm install -g sequelize-cli**
 dans VS code sur le fichier **.sequilizerc** ajouter ceci : 
@@ -256,7 +251,7 @@ module.exports = {
     queryInterface.dropTable('TodoItems'),
 };
 ```
-Une fosi ces étapes terminées faire : 
+Une fois ces étapes terminées faire : 
 > **sequelize db:migrate**
 
 8. Création des controller et Routing
